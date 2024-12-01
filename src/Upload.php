@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace StarInterop\Request\Interface;
+namespace RequestInterop\Interface;
 
 use Stringable;
 
@@ -26,11 +26,6 @@ interface Upload extends Stringable
     public ?string $type { get; }
 
     /**
-     * The size, in bytes, of the uploaded file.
-     */
-    public ?int $size { get; }
-
-    /**
      * The temporary filename of the file in which the uploaded file was stored
      * on the server.
      */
@@ -40,6 +35,11 @@ interface Upload extends Stringable
      * The error code associated with the upload.
      */
     public ?int $error { get; }
+
+    /**
+     * The size, in bytes, of the uploaded file.
+     */
+    public ?int $size { get; }
 
     /**
      * Returns the contents of the uploaded file.

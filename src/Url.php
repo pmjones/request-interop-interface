@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace StarInterop\Request\Interface;
+namespace RequestInterop\Interface;
 
 use Stringable;
 

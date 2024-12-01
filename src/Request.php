@@ -1,20 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace StarInterop\Request\Interface;
+namespace RequestInterop\Interface;
 
 use Stringable;
 
 /**
  * @phpstan-type CookiesArray array<string, string>
- *
- * @phpstan-type FileArray array{
- *     name?:?string,
- *     full_path?:?string,
- *     size?::int,
- *     tmp_name?:?string,
- *     error?:?int
- * }
  *
  * @phpstan-type HeadersArray array<lowercase-string, string>
  *
@@ -85,7 +77,7 @@ use Stringable;
  * @phpstan-type InputArray_1E array<array-key, ?scalar>|InputArray_1F
  * @phpstan-type InputArray_1F array<array-key, ?scalar>|mixed[]
  *
- * @phpstan-type MethodName uppercase-string
+ * @phpstan-type MethodString uppercase-string
  *
  * @phpstan-type QueryArray array<array-key, string>
  *     |QueryArray_00
@@ -156,7 +148,7 @@ use Stringable;
  *
  * @phpstan-type ServerArray array<uppercase-string, string>
  *
- * @phpstan-type UploadsArray Upload[]
+ * @phpstan-type UploadsArray array<array-key, Upload>
  *     |UploadsArray_00
  *     |UploadsArray_01
  *     |UploadsArray_02
@@ -190,38 +182,38 @@ use Stringable;
  *     |UploadsArray_1E
  *     |UploadsArray_1F
  *
- * @phpstan-type UploadsArray_00 Upload[]|UploadsArray_01
- * @phpstan-type UploadsArray_01 Upload[]|UploadsArray_02
- * @phpstan-type UploadsArray_02 Upload[]|UploadsArray_03
- * @phpstan-type UploadsArray_03 Upload[]|UploadsArray_04
- * @phpstan-type UploadsArray_04 Upload[]|UploadsArray_05
- * @phpstan-type UploadsArray_05 Upload[]|UploadsArray_06
- * @phpstan-type UploadsArray_06 Upload[]|UploadsArray_07
- * @phpstan-type UploadsArray_07 Upload[]|UploadsArray_08
- * @phpstan-type UploadsArray_08 Upload[]|UploadsArray_09
- * @phpstan-type UploadsArray_09 Upload[]|UploadsArray_0A
- * @phpstan-type UploadsArray_0A Upload[]|UploadsArray_0B
- * @phpstan-type UploadsArray_0B Upload[]|UploadsArray_0C
- * @phpstan-type UploadsArray_0C Upload[]|UploadsArray_0D
- * @phpstan-type UploadsArray_0D Upload[]|UploadsArray_0E
- * @phpstan-type UploadsArray_0E Upload[]|UploadsArray_0F
- * @phpstan-type UploadsArray_0F Upload[]|UploadsArray_10
- * @phpstan-type UploadsArray_10 Upload[]|UploadsArray_11
- * @phpstan-type UploadsArray_11 Upload[]|UploadsArray_12
- * @phpstan-type UploadsArray_12 Upload[]|UploadsArray_13
- * @phpstan-type UploadsArray_13 Upload[]|UploadsArray_14
- * @phpstan-type UploadsArray_14 Upload[]|UploadsArray_15
- * @phpstan-type UploadsArray_15 Upload[]|UploadsArray_16
- * @phpstan-type UploadsArray_16 Upload[]|UploadsArray_17
- * @phpstan-type UploadsArray_17 Upload[]|UploadsArray_18
- * @phpstan-type UploadsArray_18 Upload[]|UploadsArray_19
- * @phpstan-type UploadsArray_19 Upload[]|UploadsArray_1A
- * @phpstan-type UploadsArray_1A Upload[]|UploadsArray_1B
- * @phpstan-type UploadsArray_1B Upload[]|UploadsArray_1C
- * @phpstan-type UploadsArray_1C Upload[]|UploadsArray_1D
- * @phpstan-type UploadsArray_1D Upload[]|UploadsArray_1E
- * @phpstan-type UploadsArray_1E Upload[]|UploadsArray_1F
- * @phpstan-type UploadsArray_1F Upload[]|mixed[]
+ * @phpstan-type UploadsArray_00 array<array-key, Upload>|UploadsArray_01
+ * @phpstan-type UploadsArray_01 array<array-key, Upload>|UploadsArray_02
+ * @phpstan-type UploadsArray_02 array<array-key, Upload>|UploadsArray_03
+ * @phpstan-type UploadsArray_03 array<array-key, Upload>|UploadsArray_04
+ * @phpstan-type UploadsArray_04 array<array-key, Upload>|UploadsArray_05
+ * @phpstan-type UploadsArray_05 array<array-key, Upload>|UploadsArray_06
+ * @phpstan-type UploadsArray_06 array<array-key, Upload>|UploadsArray_07
+ * @phpstan-type UploadsArray_07 array<array-key, Upload>|UploadsArray_08
+ * @phpstan-type UploadsArray_08 array<array-key, Upload>|UploadsArray_09
+ * @phpstan-type UploadsArray_09 array<array-key, Upload>|UploadsArray_0A
+ * @phpstan-type UploadsArray_0A array<array-key, Upload>|UploadsArray_0B
+ * @phpstan-type UploadsArray_0B array<array-key, Upload>|UploadsArray_0C
+ * @phpstan-type UploadsArray_0C array<array-key, Upload>|UploadsArray_0D
+ * @phpstan-type UploadsArray_0D array<array-key, Upload>|UploadsArray_0E
+ * @phpstan-type UploadsArray_0E array<array-key, Upload>|UploadsArray_0F
+ * @phpstan-type UploadsArray_0F array<array-key, Upload>|UploadsArray_10
+ * @phpstan-type UploadsArray_10 array<array-key, Upload>|UploadsArray_11
+ * @phpstan-type UploadsArray_11 array<array-key, Upload>|UploadsArray_12
+ * @phpstan-type UploadsArray_12 array<array-key, Upload>|UploadsArray_13
+ * @phpstan-type UploadsArray_13 array<array-key, Upload>|UploadsArray_14
+ * @phpstan-type UploadsArray_14 array<array-key, Upload>|UploadsArray_15
+ * @phpstan-type UploadsArray_15 array<array-key, Upload>|UploadsArray_16
+ * @phpstan-type UploadsArray_16 array<array-key, Upload>|UploadsArray_17
+ * @phpstan-type UploadsArray_17 array<array-key, Upload>|UploadsArray_18
+ * @phpstan-type UploadsArray_18 array<array-key, Upload>|UploadsArray_19
+ * @phpstan-type UploadsArray_19 array<array-key, Upload>|UploadsArray_1A
+ * @phpstan-type UploadsArray_1A array<array-key, Upload>|UploadsArray_1B
+ * @phpstan-type UploadsArray_1B array<array-key, Upload>|UploadsArray_1C
+ * @phpstan-type UploadsArray_1C array<array-key, Upload>|UploadsArray_1D
+ * @phpstan-type UploadsArray_1D array<array-key, Upload>|UploadsArray_1E
+ * @phpstan-type UploadsArray_1E array<array-key, Upload>|UploadsArray_1F
+ * @phpstan-type UploadsArray_1F array<array-key, Upload>|mixed[]
  */
 interface Request extends Stringable
 {
@@ -258,7 +250,7 @@ interface Request extends Stringable
     /**
      * The HTTP request method.
      *
-     * @var MethodName
+     * @var MethodString
      */
     public string $method { get; }
 
