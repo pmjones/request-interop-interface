@@ -84,9 +84,11 @@ This package also provides several custom types to enable better static analysis
 
 Reference implementations are to be found at <https://github.com/pmjones/request-interop-impl>.
 
-The interface properties SHOULD be implemented as read-only.
+Interface properties SHOULD be implemented as read-only.
 
-The interface properties MAY be implemented as writable or immutable.
+Interface property arrays SHOULD NOT allow references.
+
+Interface properties MAY be implemented as writable or immutable.
 
 Implementors MAY add other properties and methods to their implementations.
 
@@ -94,7 +96,7 @@ Implementors MAY add other properties and methods to their implementations.
 
 Q: What userland projects were used as reference points for RequestInterop?
 
-A: The pre-PSR-7 versions of Aura, Cake, Code Igniter, Horde, Joomla, Klein, Lithium, MediaWiki, Nette, Phalcon, Symfony, Yaf, Yii, and Zend. (the singluar outlier in the research). See this Google Sheet for more information: https://docs.google.com/spreadsheets/d/e/2PACX-1vQzJP00bOAMYGSVQ8QIIJkXVdAg-OMEfkgna7-b2IsuoWN8x_TazxEYn-yVDF2XQIqnzmHqdDO3KEKx/pubhtml
+A: The pre-PSR-7 versions of Aura, Cake, Code Igniter, Horde, Joomla, Klein, Lithium, MediaWiki, Nette, Phalcon, Symfony, Yaf, Yii, and Zend. See this Google Sheet for more information: https://docs.google.com/spreadsheets/d/e/2PACX-1vQzJP00bOAMYGSVQ8QIIJkXVdAg-OMEfkgna7-b2IsuoWN8x_TazxEYn-yVDF2XQIqnzmHqdDO3KEKx/pubhtml
 
 Q: How is RequestInterop different from PSR-7?
 
