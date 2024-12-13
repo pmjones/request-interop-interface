@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace RequestInterop\Interface;
 
-use Stringable;
-
 /**
  * @phpstan-type CookiesArray array<string, string>
  *
@@ -146,7 +144,7 @@ use Stringable;
  * @phpstan-type QueryArray_1E array<array-key, string>|QueryArray_1F
  * @phpstan-type QueryArray_1F array<array-key, string>|mixed[]
  *
- * @phpstan-type ServerArray array<uppercase-string, string>
+ * @phpstan-type ServerArray array<string, string>
  *
  * @phpstan-type UploadsArray array<array-key, Upload>
  *     |UploadsArray_00
@@ -215,7 +213,7 @@ use Stringable;
  * @phpstan-type UploadsArray_1E array<array-key, Upload>|UploadsArray_1F
  * @phpstan-type UploadsArray_1F array<array-key, Upload>|mixed[]
  */
-interface Request extends Stringable
+interface Request
 {
     /**
      * A copy of `$_COOKIES`.
@@ -276,12 +274,4 @@ interface Request extends Stringable
     public array $uploads { get; }
 
     public Url $url { get; }
-
-    /**
-     * Returns the raw request body as a string.
-     *
-     * @see https://www.php.net/file_get_contents
-     * @see https://www.php.net/manual/en/wrappers.php.php#wrappers.php.input
-     */
-    public function __toString() : string;
 }

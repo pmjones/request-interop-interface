@@ -3,9 +3,7 @@ declare(strict_types=1);
 
 namespace RequestInterop\Interface;
 
-use Stringable;
-
-interface Upload extends Stringable
+interface Upload
 {
     /**
      * The original name of the file on the client machine.
@@ -40,13 +38,6 @@ interface Upload extends Stringable
      * The size, in bytes, of the uploaded file.
      */
     public ?int $size { get; }
-
-    /**
-     * Returns the contents of the uploaded file.
-     *
-     * @see https://www.php.net/file_get_contents
-     */
-    public function __toString() : string;
 
     /**
      * Moves the uploaded file to a new location.
