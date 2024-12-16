@@ -216,59 +216,41 @@ namespace RequestInterop\Interface;
 interface Request
 {
     /**
-     * A copy of `$_COOKIES`.
-     *
      * @var CookiesArray
      */
     public array $cookies { get; }
 
     /**
-     * A copy of `$_FILES`.
-     *
      * @var mixed[]
      */
     public array $files { get; }
 
     /**
-     * An array of key/value pairs computed from `$_SERVER` using all `HTTP_*`
-     * header keys, plus RFC 3875 headers not prefixed with `HTTP_`.
-     *
      * @var HeadersArray
      */
     public array $headers { get; }
 
     /**
-     * A copy of `$_POST`, or a parsed representation of the request body
-     * (i.e. the `php://input` stream).
-     *
      * @var InputArray
      */
     public array $input { get; }
 
     /**
-     * The HTTP request method.
-     *
      * @var MethodString
      */
     public string $method { get; }
 
     /**
-     * A copy of `$_GET`.
-     *
      * @var QueryArray
      */
     public array $query { get; }
 
     /**
-     * A copy of `$_SERVER`.
-     *
      * @var ServerArray
      */
     public array $server { get; }
 
     /**
-     * A copy of `$_FILES`, restructured to look more like `$_POST`.
-     *
      * @var UploadsArray
      */
     public array $uploads { get; }
