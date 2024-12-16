@@ -5,17 +5,18 @@ namespace RequestInterop\Interface;
 
 use Stringable;
 
-interface RawBody extends Stringable
+/**
+ * @phpstan-type BodyResource resource of type (stream)
+ */
+interface Body extends Stringable
 {
     /**
-     * @var resource of type (stream)
+     * @var BodyResource
      */
-    public mixed $rawBody { get; }
+    public mixed $body { get; }
 
     /**
-     * Returns the raw body as a string.
-     *
-     * @see https://www.php.net/file_get_contents
+     * @see https://www.php.net/stream_get_contents
      * @see https://www.php.net/manual/en/wrappers.php.php#wrappers.php.input
      */
     public function __toString() : string;
