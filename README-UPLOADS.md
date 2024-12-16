@@ -1,11 +1,9 @@
-# The `$uploads` Property
+# The _Request_ `$uploads` Property
 
-The _Request_ `$files` property is an identical copy of `$_FILES`. Normally,
-`$_FILES` looks like this with multi-file uploads:
+The _Request_ `$files` property is typically an identical copy of `$_FILES`. Normally, `$_FILES` looks like this with multi-file uploads:
 
 ```php
-// $_FILES ...
-[
+assert($_FILES === [
     'images' => [
         'name' => [
             0 => 'image1.png',
@@ -33,15 +31,15 @@ The _Request_ `$files` property is an identical copy of `$_FILES`. Normally,
             2 => 345678,
         ],
     ],
-];
+]);
 ```
 
-However, that structure is not at all what we expect when we are used to
-working with `$_POST`. Therefore, the _Request_ `$uploads` property
-restructures the data in `$_FILES` to look more like `$_POST` does ...
+However, that structure is not at all what we expect when we compare it to `$_POST`.
+
+Therefore, the _Request_ `$uploads` property retains the data in `$_FILES` in a structure that looks like `$_POST` ...
 
 ```php
-// $request->uploads ...
+// restructured:
 [
     'images' => [
         0 => [
@@ -69,4 +67,6 @@ restructures the data in `$_FILES` to look more like `$_POST` does ...
 ];
 ```
 
-... and then replaces each array-based descriptor with a _Upload_ instance.
+... where each array-based descriptor is replaced with an _Upload_ instance.
+
+Cf. the reference implementation at [https://github.com/pmjones/request-interop-impl/src/RequestFactory.php][].
