@@ -82,7 +82,6 @@ Notes:
 
 - **This is a _Url_ interface, not a _Uri_ interface.** This is because the protocol is intended to be included in the properties. Cf. [The Real Difference Between a URL and a URI][]: "A URL is a more specific version of a URI, so if the protocol is given or implied you should probably use URL."
 
-
 ### _Upload_
 
 The _Upload_ interface represents a single uploaded file. It defines these properties and methods:
@@ -123,7 +122,6 @@ Notes:
 
 - **The `$body` resource might be manipulated externally.** As with any stream resource, the state of the `$body` resource is mutable. Consumers might modify it, close it, leave the pointer in an unexpected location, and so on. This is why _Body_ implementations MUST NOT be advertised as readonly or immutable.
 
-
 ## Implementations
 
 Implementations advertised as readonly or immutable MUST be deeply readonly or immutable; they MUST NOT encapsulate any references, resources, mutable objects, objects or arrays encapsulating references or resources or mutable objects, and so on.
@@ -135,7 +133,6 @@ Notes:
 - **Reflection does not invalidate advertisements of readonly or immutable implementations.** The ability of a consumer to use Reflection to mutate an implementation advertised as readonly or immutable does not constitute a failure to comply with RequstInterop.
 
 - **Reference implementations** are to be found at <https://github.com/pmjones/request-interop-impl>.
-
 
 ## Q & A
 

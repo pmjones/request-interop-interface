@@ -6,18 +6,14 @@ namespace RequestInterop\Interface;
 use Stringable;
 
 /**
- * @phpstan-type BodyResource resource of type (stream)
+ * @phpstan-type BodyResource resource
  */
 interface Body extends Stringable
 {
     /**
-     * @var BodyResource
+     * @var ?BodyResource
      */
     public mixed $body { get; }
 
-    /**
-     * @see https://www.php.net/stream_get_contents
-     * @see https://www.php.net/manual/en/wrappers.php.php#wrappers.php.input
-     */
     public function __toString() : string;
 }

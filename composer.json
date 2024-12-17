@@ -18,6 +18,10 @@
         "php": "^8.4"
     },
     "require-dev": {
-        "pds/skeleton": "^1.0"
+        "pds/skeleton": "^1.0",
+        "phpstan/phpstan": "^2.0"
+    },
+    "scripts": {
+        "analyze": "./vendor/bin/phpstan analyze -c phpstan.neon"
     }
 }
