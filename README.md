@@ -16,7 +16,7 @@ The _Request_ interface represents copies of the PHP superglobals (or their equi
 
 - `CookiesArray $cookies { get; }` corresponds to a copy of the `$_COOKIES` superglobal array or its equivalent.
 
-- `mixed[] $files { get; }` corresponds to a copy of the `$_FILES` superglobal array or its equivalent.
+- `FilesArray $files { get; }` corresponds to a copy of the `$_FILES` superglobal array or its equivalent.
 
 - `HeadersArray $headers { get; }` corresponds to an array of the request headers, typically derived from `$_SERVER` or its equivalent. Each array key MUST be the header field name in lower-kebab-case.
 
@@ -36,17 +36,19 @@ It also provides these custom PHPStan types to enable better static analysis:
 
 - `@phpstan-type CookiesArray array<string, string>`
 
+- `@phpstan-type FilesArray array<array-key, FilesArray|FilesArrayItem|FilesArrayGroup>` (to 16 levels deep)
+
 - `@phpstan-type HeadersArray array<lowercase-string, string>`
 
-- `@phpstan-type InputArray array<array-key, null|scalar|InputArray>` (to 16 levels of recursion)
+- `@phpstan-type InputArray array<array-key, null|scalar|InputArray>` (to 16 levels deep)
 
 - `@phpstan-type MethodString uppercase-string`
 
-- `@phpstan-type QueryArray array<string, string|QueryArray>` (to 16 levels of recursion)
+- `@phpstan-type QueryArray array<string, string|QueryArray>` (to 16 levels deep)
 
 - `@phpstan-type ServerArray array<string, string>`
 
-- `@phpstan-type UploadsArray array<array-key, Upload|UploadsArray>` (to 16 levels of recursion)
+- `@phpstan-type UploadsArray array<array-key, Upload|UploadsArray>` (to 16 levels deep)
 
 Notes:
 
@@ -99,6 +101,8 @@ The _Upload_ interface represents a single uploaded file. It defines these prope
 - `?int $error { get; }` corresponds to the `'error'` key in a `$_FILES` element (or its equivalent).
 
 - `move(string $to) : bool` moves the uploaded file to another location, typically via `move_uploaded_file()`.
+
+(Cf. <https://www.php.net/manual/en/features.file-upload.post-method.php>.)
 
 ### _Body_
 

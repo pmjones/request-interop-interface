@@ -23,8 +23,5 @@ interface Url extends Stringable
 
     public ?string $fragment { get; }
 
-    /**
-     * Returns the entire URL as a string.
-     */
     public function __toString() : string;
 }

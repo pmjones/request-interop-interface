@@ -10,9 +10,7 @@ use Stringable;
  */
 interface Body extends Stringable
 {
-    /**
-     * @var ?BodyResource
-     */
+    /** @var ?BodyResource */
     public mixed $body { get; }
 
     public function __toString() : string;
