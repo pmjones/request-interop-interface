@@ -1,72 +1,102 @@
 # The _Request_ `$uploads` Property
 
-The _Request_ `$files` property is typically an identical copy of `$_FILES`. Normally, `$_FILES` looks like this with multi-file uploads:
+The _Request_ `$files` property is typically an identical copy of `$_FILES`. Normally, `$_FILES` looks like this with a single file upload ...
 
 ```php
-assert($_FILES === [
-    'images' => [
-        'name' => [
-            0 => 'image1.png',
-            1 => 'image2.gif',
-            2 => 'image3.jpg',
-        ],
-        'type' => [
-            0 => 'image/png',
-            1 => 'image/gif',
-            2 => 'image/jpeg',
-        ],
-        'tmp_name' [
-            0 => '/tmp/path/phpABCDEF',
-            1 => '/tmp/path/phpGHIJKL',
-            2 => '/tmp/path/phpMNOPQR',
+$_FILES = [
+    'photo' => [
+        'tmp_name' => '/tmp/upload/ods9bqgt',
+        'error' => 0,
+        'name' => 'calvin.jpg',
+        'full_path' => '/Users/watterson/Pictures/calvin.jpg',
+        'size' => 12345,
+        'type' => 'image/jpeg',
+    ],
+];
+```
+
+... which is straightforward enough. But the structure looks like this with multi-file uploads:
+
+```php
+$_FILES = [
+    'photos' => [
+        'tmp_name' => [
+            0 => '/tmp/upload/xexrsaq9',
+            1 => '/tmp/upload/j6m0j94k',
+            2 => '/tmp/upload/8p2ki2px',
         ],
         'error' => [
             0 => 0,
             1 => 0,
             2 => 0,
         ],
-        'size' =>[
-            0 => 123456,
-            1 => 234567,
-            2 => 345678,
+        'name' => [
+            0 => 'calvin.jpg',
+            1 => 'hobbes.jpg',
+            2 => 'susie.jpg',
         ],
-    ],
-]);
-```
-
-However, that structure is not at all what we expect when we compare it to `$_POST`.
-
-Therefore, the _Request_ `$uploads` property retains the data in `$_FILES` in a structure that looks like `$_POST` ...
-
-```php
-// restructured:
-[
-    'images' => [
-        0 => [
-            'name' => 'image1.png',
-            'type' => 'image/png',
-            'tmp_name' => '/tmp/path/phpABCDEF',
-            'error' => 0,
-            'size' => 123456,
+        'full_path' => [
+            0 => '/Users/watterson/Pictures/calvin.jpg',
+            1 => '/Users/watterson/Pictures/hobbes.jpg',
+            2 => '/Users/watterson/Pictures/susie.jpg',
         ],
-        1 => [
-            'name' => 'image2.gif',
-            'type' => 'image/gif',
-            'tmp_name' => '/tmp/path/phpGHIJKL',
-            'error' => 0,
-            'size' => 234567,
+        'size' => [
+            0 => 12345,
+            1 => 23456,
+            2 => 45678,
         ],
-        2 => [
-            'name' => 'image3.jpg',
-            'type' => 'image/jpeg',
-            'tmp_name' => '/tmp/path/phpMNOPQR',
-            'error' => 0,
-            'size' => 345678,
+        'type' => [
+            0 => 'image/jpeg',
+            1 => 'image/jpeg',
+            2 => 'image/jpeg',
         ],
     ],
 ];
 ```
 
-... where each array-based descriptor is replaced with an _Upload_ instance.
+That structure is not at all what we expect when we compare it to `$_POST`; instead, we would expect something more like the following:
 
-Cf. the reference implementation at [https://github.com/pmjones/request-interop-impl/src/RequestFactory.php][].
+```php
+$uploads = [
+    'photos' => [
+        0 => [
+            'tmp_name' => '/tmp/upload/xexrsaq9',
+            'error' => 0,
+            'name' => 'calvin.jpg',
+            'full_path' => '/Users/watterson/Pictures/calvin.jpg',
+            'size' => 12345,
+            'type' => 'image/jpeg',
+        ],
+        1 => [
+            'tmp_name' => '/tmp/upload/j6m0j94k',
+            'error' => 0,
+            'name' => 'hobbes.jpg',
+            'full_path' => '/Users/watterson/Pictures/hobbes.jpg',
+            'size' => 23456,
+            'type' => 'image/jpeg',
+        ],
+        2 => [
+            'tmp_name' => '/tmp/upload/8p2ki2px',
+            'error' => 0,
+            'name' => 'susie.jpg',
+            'full_path' => '/Users/watterson/Pictures/susie.jpg',
+            'size' => 34567,
+            'type' => 'image/jpeg',
+        ],
+    ]
+];
+```
+
+That modified structure is what `UploadsArray` type represents, with the addition that instead of presenting the file information as an array, it must be encapsulated in an _Upload_ instance:
+
+```php
+$uploads = [
+    'photos' => [
+        0 => /** Upload instance for calvin.jpg */,
+        1 => /** Upload instance for hobbes.jpg */,
+        2 => /** Upload instance for susie.jpg */,
+    ]
+]);
+```
+
+Cf. the reference implementation of `uploadsArray()` at [https://github.com/pmjones/request-interop-impl/src/RequestFactory.php][] and the corresponding `testUploadsArray()` methods at [https://github.com/pmjones/request-interop-impl/tests/RequestFactoryTestCase.php][].
