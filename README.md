@@ -1,14 +1,14 @@
 # RequestInterop Interface Package
 
-This package provides interoperable interfaces for reading server-side request values, in order to reduce the global mutable state problems that exist with PHP superglobals. It reflects and refines the common practices of over a dozen different userland projects.
+This package provides interoperable interfaces for encapsulating readable server-side request values, in order to reduce the global mutable state problems that exist with PHP superglobals. It reflects and refines the common practices of over a dozen different userland projects.
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED",  "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119][].
 
 ## Interfaces
 
-**The interfaces define readable properties, not getter methods.** PHP superglobals are presented as variables and not as functions; using properties instead of methods maintains symmetry with the language. In addition, using things like array access and null-coalesce against a property looks more typically idiomatic in PHP than with a getter method; it is the difference between `$request->query['foo'] ?? 'bar'` and `$request->getQuery()['foo'] ?? 'bar'`.
+**The interfaces define readable properties, not getter methods.** PHP superglobals are presented as variables and not as functions; using properties instead of methods maintains symmetry with the language. In addition, using things like array access and null-coalesce against a property looks more typically idiomatic in PHP than with a getter method; it is the difference between `$request->query['foo'] ?? 'bar'` and `$request->getQuery()['foo'] ?? 'bar'` or `$request->query->get('foo', 'bar')`.
 
-**The interfaces define property hooks for `get` but not `set`.** The intent is to guarantee only the readability of implementations; guarantees of writability are outside the scope of this package.
+**The interfaces define property hooks for `get` but not `set`.** The interfaces guarantees only the readability; writability is outside the scope of this package.
 
 ### _Request_
 
@@ -30,7 +30,7 @@ The _Request_ interface represents copies of the PHP superglobals (or their equi
 
 - `UploadsArray $uploads { get; }` is an array of _Upload_ instances, typically derived from `$_FILES` or its equivalent. The `$uploads` index structure MUST correspond to the structure in which the uploaded files were indexed; cf. [README-UPLOADS.md][].
 
-- `Url $url { get; }` is a _Url_ instance corresponding to this request, typically using values derived from `$_SERVER` or its equivalent.
+- `Url $url { get; }` is a _Url_ instance corresponding to this request, typically derived from `$_SERVER` or its equivalent.
 
 It also provides these custom PHPStan types to aid static analysis:
 
@@ -78,11 +78,11 @@ Notes:
 
 - **The `$method` property is a string and not a _Method_ interface.** Usually the reason for a _Method_ interface is to define `is(string $method) : bool` to make sure the comparison values use matching cases. However, the custom `MethodString` type is `uppercase-string`, which means static analysis should catch mismatched casing.
 
-- **`ServerArray` is composed of `array<string, string>` and not `array<uppercase-string, string>`.** Some servers add `$_SERVER` keys in mixed case. For example, Microsoft IIS adds `IIS_WasUrlRewritten`.
-
--- **The `QueryArray` type allows only  `string`, while `InputArray` allows any `scalar`.** The `QueryArray` values correspond to `$_GET`, which is composed only of strings. However, `InputArray` corresponds to any parsed or decoded form of the request content body; different parsing strategies, such as `json_decode()`, may return various scalar types.
-
 - **The `FilesArray`, `InputArray`, `UploadsArray`, and `QueryArray` types are `mixed[]` only because they are recursive.** Currently, static analysis tools such as PHPStan cannot process recursive types. Implementations MUST honor these `mixed[]` types as the more strict, but not analyzable, recursive pseudo-type provided with their respective type descriptions.
+
+- **The `QueryArray` type allows only  `string`, while `InputArray` allows any `scalar`.** The `QueryArray` values correspond to `$_GET`, which is composed only of strings. However, `InputArray` corresponds to any parsed or decoded form of the request content body; different parsing strategies, such as `json_decode()`, may return various scalar types.
+
+- **The `ServerArray` type is `array<string, string>` and not `array<uppercase-string, string>`.** Some servers add `$_SERVER` keys in mixed case. For example, Microsoft IIS adds `IIS_WasUrlRewritten`.
 
 ### _Url_
 
@@ -114,17 +114,17 @@ Notes:
 
 The _Upload_ interface represents a single uploaded file. It defines these properties and methods:
 
-- `?string $name { get; }` corresponds to the `'name'` key in a `$_FILES` element (or its equivalent).
+- `string $tmpName { get; }` corresponds to the `'tmp_name'` key in a `FilesArrayItem` (typically from `$_FILES`).
 
-- `?string $fullPath { get; }` corresponds to the `'full_path'` key in a `$_FILES` element (or its equivalent).
+- `int $error { get; }` corresponds to the `'error'` key in a `FilesArrayItem` (typically from `$_FILES`).
 
-- `?string $type { get; }` corresponds to the `'type'` key in a `$_FILES` element (or its equivalent).
+- `?string $name { get; }` corresponds to the `'name'` key in a `FilesArrayItem` (typically from `$_FILES`).
 
-- `?string $tmpName { get; }` corresponds to the `'tmp_name'` key in a `$_FILES` element (or its equivalent).
+- `?string $fullPath { get; }` corresponds to the `'full_path'` key in a `FilesArrayItem` (typically from `$_FILES`).
 
-- `?int $size { get; }` corresponds to the `'size'` key in a `$_FILES` element (or its equivalent).
+- `?string $type { get; }` corresponds to the `'type'` key in a `FilesArrayItem` (typically from `$_FILES`).
 
-- `?int $error { get; }` corresponds to the `'error'` key in a `$_FILES` element (or its equivalent).
+- `?int $size { get; }` corresponds to the `'size'` key in a `FilesArrayItem` (typically from `$_FILES`).
 
 - `move(string $to) : bool` moves the uploaded file to another location, typically via `move_uploaded_file()`.
 
@@ -134,7 +134,7 @@ The _Upload_ interface represents a single uploaded file. It defines these prope
 
 The _Body_ interface represents the raw content of a _Request_ or an _Upload_. It defines these properties and methods:
 
-- `?BodyResource $body { get; }` is a stream resource of the raw content; for a _Request_, this SHOULD refer to `php://input` but MAY refer to some other stream, whereas for an _Upload_ it SHOULD refer to the `$tmpName` property but MAY refer to some other stream.
+- `?BodyResource $body { get; }` is a stream resource of the raw content. For a _Request_, this SHOULD refer to `php://input` but MAY refer to some other stream, whereas for an _Upload_ it SHOULD refer to the `$tmpName` property but MAY refer to some other stream.
 
 - `__toString() : string` MUST return the entire `$body` resource as a string.
 
@@ -162,7 +162,7 @@ Notes:
 
 - **Reflection does not invalidate advertisements of readonly or immutable implementations.** The ability of a consumer to use Reflection to mutate an implementation advertised as readonly or immutable does not constitute a failure to comply with RequstInterop.
 
-- **Reference implementations** are to be found at <https://github.com/pmjones/request-interop-impl>.
+- **Reference implementations** are to be found at <https://github.com/request-interop/impl>.
 
 ## Q & A
 

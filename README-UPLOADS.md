@@ -87,7 +87,7 @@ $uploads = [
 ];
 ```
 
-That modified structure is what `UploadsArray` type represents, with the addition that instead of presenting the file information as an array, it must be encapsulated in an _Upload_ instance:
+That modified structure is what `UploadsArray` type represents, with the addition that instead of presenting the file information as an array, it is encapsulated in an _Upload_ instance:
 
 ```php
 $uploads = [
@@ -99,4 +99,4 @@ $uploads = [
 ]);
 ```
 
-Cf. the reference implementation of `uploadsArray()` at [https://github.com/pmjones/request-interop-impl/src/RequestFactory.php][] and the corresponding `testUploadsArray()` methods at [https://github.com/pmjones/request-interop-impl/tests/RequestFactoryTestCase.php][].
+Cf. the reference implementation of `uploadsArray()` at [https://github.com/request-interop/impl/blob/0.x/src/RequestFactory.php][] and the corresponding `testUploadsArray()` methods at [https://github.com/request-interop/impl/blob/0.x/tests/RequestFactoryTestCase.php][].
