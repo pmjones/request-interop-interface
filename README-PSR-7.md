@@ -12,7 +12,7 @@ What you’ll find in the draft is one pair of request/response interfaces, desc
 
 After 8 months, Dowling stepped down in August 2014, citing a lack of time and motivation. He also said: "I don’t think there’s one way to represent HTTP messages, clients, or servers in PHP." https://groups.google.com/forum/#!topic/php-fig/XwFcqSmqzGk
 
-Shortly thereafter, in September 2014, with encouragement from many (including myself), MWOP of Zend Framework takes over PSR-7. We learn that he has "Sencha Connect" and middleware on the brain:
+Shortly thereafter, in September 2014, with encouragement from many (including myself), MAtthew Weier O'Phinney of Zend Framework [takes over PSR-7](https://groups.google.com/d/topic/php-fig/CTPRa2XP8po/discussion). We learn that he has "Sencha Connect" and middleware on the brain:
 
 > The reason I wanted to port Connect is this: an application consists of middleware. Each middleware is a callback that accepts a request, response, and a callback called "next" (which is optional, actually):
 >
@@ -26,11 +26,11 @@ Shortly thereafter, in September 2014, with encouragement from many (including m
 
 At this point, we see that PSR-7 has been expanded to answer a second question: "How can we model HTTP messages for receiving a request, and sending back a response?" This is in addition to the original goal, but idea is the same: building a standard model of HTTP messages.
 
-(For full disclosure, note that I became a sponsor on PSR-7 in December 2014, along with Beau Simensen as the coordinator.)
+(For full disclosure, note that [I became a sponsor on PSR-7 in December 2014](https://groups.google.com/d/topic/php-fig/Y3a4hcRN610/discussion), along with Beau Simensen as the coordinator.)
 
-It is during MWOP’s tenure, before the successful acceptance vote in May 2015, that we see the PSR-7 interfaces expand in number, and become "immutable" (with one intentional exception, and other unintentional exceptions).
+It is during MWOP’s tenure, [before the successful acceptance vote](https://groups.google.com/d/topic/php-fig/0baLqR6Rvcg/discussion) in May 2015, that we see the PSR-7 interfaces expand in number, and become "immutable" (with one intentional exception, and other unintentional exceptions).
 
-So we can see that the purpose of PSR-7 is to model 2 sets of HTTP messages using 7 interfaces: one set for when PHP sends a request and receives a response, and an addition set for when PHP receives a request and sends a response.
+So we can see that the purpose of PSR-7 is to model [2 sets of HTTP messages using 7 interfaces](http://www.php-fig.org/psr/psr-7/): one set for when PHP sends a request and receives a response, and an addition set for when PHP receives a request and sends a response.
 
 ## RequestInterop
 
