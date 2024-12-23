@@ -6,7 +6,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 ## Interfaces
 
-**The interfaces define readable properties, not getter methods.** PHP superglobals are presented as variables and not as functions; using properties instead of methods maintains symmetry with the language. In addition, using things like array access and null-coalesce against a property looks more typically idiomatic in PHP than with a getter method; it is the difference between `$request->query['foo'] ?? 'bar'` and `$request->getQuery()['foo'] ?? 'bar'` or `$request->query->get('foo', 'bar')`.
+**The interfaces define readable properties, not getter methods.** PHP superglobals are presented as variables and not as functions; using properties instead of methods maintains symmetry with the language. In addition, using things like array access and null-coalesce against a property looks more usually idiomatic in PHP than with a getter method; it is the difference between `$request->query['foo'] ?? 'bar'` and `$request->getQuery()['foo'] ?? 'bar'` or `$request->query->get('foo', 'bar')`.
 
 **The interfaces define property hooks for `get` but not `set`.** The interfaces guarantees only the readability; writability is outside the scope of this package.
 
@@ -18,19 +18,19 @@ The _Request_ interface represents copies of the PHP superglobals (or their equi
 
 - `FilesArray $files { get; }` corresponds to a copy of the `$_FILES` superglobal array or its equivalent.
 
-- `HeadersArray $headers { get; }` corresponds to an array of the request headers, typically derived from `$_SERVER` or its equivalent. Each array key MUST be the header field name in lower-kebab-case.
+- `HeadersArray $headers { get; }` corresponds to an array of the request headers, usually derived from `$_SERVER` or its equivalent. Each array key MUST be the header field name in lower-kebab-case.
 
-- `InputArray $input { get; }` corresponds to an array of the request body values, typically a copy of the `$_POST` superglobal array or its equivalent (such as a parsed or decoded representation of the request body).
+- `InputArray $input { get; }` corresponds to an array of the request body values, usually a copy of the `$_POST` superglobal array or its equivalent (such as a parsed or decoded representation of the request body).
 
-- `MethodString $method { get; }` corresponds to the request method, typically derived from `$_SERVER` or its equivalent.
+- `MethodString $method { get; }` corresponds to the request method, usually derived from `$_SERVER` or its equivalent.
 
-- `QueryArray $query { get; }` corresponds to an array of the request query values, typically a copy of `$_GET` or its equivalent.
+- `QueryArray $query { get; }` corresponds to an array of the request query values, usually a copy of `$_GET` or its equivalent.
 
 - `ServerArray $server { get; }` corresponds to a copy of the `$_SERVER` superglobal array or its equivalent.
 
-- `UploadsArray $uploads { get; }` is an array of _Upload_ instances, typically derived from `$_FILES` or its equivalent. The `$uploads` index structure MUST correspond to the structure in which the uploaded files were indexed; cf. [README-UPLOADS.md][].
+- `UploadsArray $uploads { get; }` is an array of _Upload_ instances, usually derived from `$_FILES` or its equivalent. The `$uploads` index structure MUST correspond to the structure in which the uploaded files were indexed; cf. [README-UPLOADS.md][].
 
-- `Url $url { get; }` is a _Url_ instance corresponding to this request, typically derived from `$_SERVER` or its equivalent.
+- `Url $url { get; }` is a _Url_ instance corresponding to this request, usually derived from `$_SERVER` or its equivalent.
 
 It also provides these custom PHPStan types to aid static analysis:
 
@@ -114,19 +114,19 @@ Notes:
 
 The _Upload_ interface represents a single uploaded file. It defines these properties and methods:
 
-- `string $tmpName { get; }` corresponds to the `'tmp_name'` key in a `FilesArrayItem` (typically from `$_FILES`).
+- `string $tmpName { get; }` corresponds to the `'tmp_name'` key in a `FilesArrayItem` (usually from `$_FILES`).
 
-- `int $error { get; }` corresponds to the `'error'` key in a `FilesArrayItem` (typically from `$_FILES`).
+- `int $error { get; }` corresponds to the `'error'` key in a `FilesArrayItem` (usually from `$_FILES`).
 
-- `?string $name { get; }` corresponds to the `'name'` key in a `FilesArrayItem` (typically from `$_FILES`).
+- `?string $name { get; }` corresponds to the `'name'` key in a `FilesArrayItem` (usually from `$_FILES`).
 
-- `?string $fullPath { get; }` corresponds to the `'full_path'` key in a `FilesArrayItem` (typically from `$_FILES`).
+- `?string $fullPath { get; }` corresponds to the `'full_path'` key in a `FilesArrayItem` (usually from `$_FILES`).
 
-- `?string $type { get; }` corresponds to the `'type'` key in a `FilesArrayItem` (typically from `$_FILES`).
+- `?string $type { get; }` corresponds to the `'type'` key in a `FilesArrayItem` (usually from `$_FILES`).
 
-- `?int $size { get; }` corresponds to the `'size'` key in a `FilesArrayItem` (typically from `$_FILES`).
+- `?int $size { get; }` corresponds to the `'size'` key in a `FilesArrayItem` (usually from `$_FILES`).
 
-- `move(string $to) : bool` moves the uploaded file to another location, typically via `move_uploaded_file()`.
+- `move(string $to) : bool` moves the uploaded file to another location, usually via `move_uploaded_file()`.
 
 (Cf. <https://www.php.net/manual/en/features.file-upload.post-method.php>.)
 
