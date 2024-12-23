@@ -22,6 +22,7 @@
         "phpstan/phpstan": "^2.0"
     },
     "scripts": {
-        "analyze": "./vendor/bin/phpstan analyze -c phpstan.neon"
+        "analyze": "./vendor/bin/phpstan analyze -c phpstan.neon",
+        "check": "composer analyze"
     }
 }
